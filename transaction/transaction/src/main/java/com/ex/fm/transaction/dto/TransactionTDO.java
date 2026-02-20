@@ -1,4 +1,4 @@
-package com.ex.fm.transaction.dtotransformer;
+package com.ex.fm.transaction.dto;
 
 import java.time.Instant;
 
