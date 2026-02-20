@@ -2,7 +2,7 @@ package com.ex.fm.transaction.dto;
 
 import java.time.Instant;
 
-public class TransactionTDO {
+public class TransactionDTO {
     private String location;
 
     private String status;

@@ -1,6 +1,6 @@
 package com.ex.fm.transaction.controller;
 
-import com.ex.fm.transaction.dto.TransactionTDO;
+import com.ex.fm.transaction.dto.TransactionDTO;
 import com.ex.fm.transaction.entity.Transaction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionTDO request){
+    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO request){
         return null;
     }
 }
