@@ -22,6 +22,7 @@ public class DtoTransformer {
         transaction.setTax(dto.getTax());
         transaction.setCreatedAt(dto.getCreatedAt());
         transaction.setReceiverId(dto.getReceiverId());
+
         LOG.info("TransactionDTO transformed to Transaction.");
         return transaction;
     }
