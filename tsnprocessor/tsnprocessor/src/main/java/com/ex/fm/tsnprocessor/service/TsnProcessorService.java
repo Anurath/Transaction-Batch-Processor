@@ -34,8 +34,12 @@ public class TsnProcessorService {
 
                 Transaction transaction = bath.get(resetCount);
 
-                LOG.info("Transaction Accepted.");
-                transaction.setProcessStatus("C");
+                if(isInTransactionTime(transaction)){
+                    LOG.info("Transaction Accepted.");
+                    transaction.setProcessStatus("C");
+                }else{
+                    transaction.setProcessStatus("R");
+                }
                 tsnProcessRepository.saveAllAndFlush(Collections.singletonList(transaction));
 
                 resetCount++;
@@ -47,9 +51,10 @@ public class TsnProcessorService {
     public boolean isInTransactionTime(Transaction transaction){
 
         if(Instant.now().toEpochMilli() - transaction.getCreatedAt().toEpochMilli() <= 5000 ){
+            LOG.info("-------TRANSACTION WITHIN TIME--------");
             return true;
         }
-        
+        LOG.warn("---------TRANSACTION WITHIN TIME----------------");
         return false;
     }
 
