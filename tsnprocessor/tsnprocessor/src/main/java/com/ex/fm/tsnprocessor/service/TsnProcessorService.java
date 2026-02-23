@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,8 +34,11 @@ public class TsnProcessorService {
 
                 Transaction transaction = bath.get(resetCount);
 
-                LOG.info("Transaction Accepted.");
-                transaction.setProcessStatus("C");
+                if(isInTransactionTime(transaction)){
+                    transaction.setProcessStatus("C");
+                }else{
+                    transaction.setProcessStatus("R");
+                }
                 tsnProcessRepository.saveAllAndFlush(Collections.singletonList(transaction));
 
                 resetCount++;
@@ -44,6 +48,16 @@ public class TsnProcessorService {
 
             bath.clear();
         }
+    }
+
+    public boolean isInTransactionTime(Transaction transaction){
+
+        if(Instant.now().toEpochMilli() - transaction.getCreatedAt().toEpochMilli() <= 5000 ){
+            LOG.info("-------TRANSACTION WITHIN TIME--------");
+            return true;
+        }
+        LOG.warn("---------TRANSACTION OUT OFF TIME----------------");
+        return false;
     }
 
 }
