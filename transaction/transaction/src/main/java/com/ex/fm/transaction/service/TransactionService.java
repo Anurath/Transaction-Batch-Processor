@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 public class TransactionService {
 
@@ -27,6 +29,7 @@ public class TransactionService {
         if(request != null){
             LOG.info("Transaction proceed to save.");
             transaction = dtoTransformer.dtoToTransaction(request);
+            transaction.setCreatedAt(Instant.now());
             transactionRepository.save(transaction);
         }
 
