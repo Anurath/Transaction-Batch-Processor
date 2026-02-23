@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -22,18 +24,24 @@ public class TransactionService {
     @Autowired
     private  DtoTransformer dtoTransformer;
 
-    public Transaction createTransaction(TransactionDTO request){
+    public List<Transaction> createTransaction(List<TransactionDTO> request){
 
         Transaction transaction = new Transaction();
 
+        List<Transaction> response = new ArrayList<>();
         if(request != null){
-            LOG.info("Transaction proceed to save.");
-            transaction = dtoTransformer.dtoToTransaction(request);
-            transaction.setCreatedAt(Instant.now());
-            transactionRepository.save(transaction);
+            int idx = 0;
+            while(idx<request.size()){
+                LOG.info("Transaction proceed to save.");
+                transaction = dtoTransformer.dtoToTransaction(request.get(idx));
+                transaction.setCreatedAt(Instant.now());
+                transactionRepository.save(transaction);
+                response.add(transaction);
+                idx++;
+            }
         }
 
-        return transaction;
+        return response;
     }
 
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -19,7 +21,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO request){
+    public ResponseEntity<List<Transaction>> createTransaction(@RequestBody List<TransactionDTO> request){
         return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(request));
     }
 }
