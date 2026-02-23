@@ -35,7 +35,6 @@ public class TsnProcessorService {
                 Transaction transaction = bath.get(resetCount);
 
                 if(isInTransactionTime(transaction)){
-                    LOG.info("Transaction Accepted.");
                     transaction.setProcessStatus("C");
                 }else{
                     transaction.setProcessStatus("R");
@@ -54,7 +53,7 @@ public class TsnProcessorService {
             LOG.info("-------TRANSACTION WITHIN TIME--------");
             return true;
         }
-        LOG.warn("---------TRANSACTION WITHIN TIME----------------");
+        LOG.warn("---------TRANSACTION OUT OFF TIME----------------");
         return false;
     }
 
