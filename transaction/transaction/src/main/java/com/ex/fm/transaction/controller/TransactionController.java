@@ -22,4 +22,9 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> createTransaction(@RequestBody List<TransactionDTO> request){
         return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(request));
     }
+
+    @GetMapping
+    public ResponseEntity<List<Transaction>> getListTransactionData(){
+       return ResponseEntity.ok(transactionService.getListTransactionData());
+    }
 }

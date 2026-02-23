@@ -1,4 +1,5 @@
 import Example from "./component/example"
+import ListTransaction from "./component/ListTransaction"
 
 function App() {
  
@@ -6,6 +7,7 @@ function App() {
   return (
     <>
       <div>Anurath</div>
+      <ListTransaction />
       <Example />
     </>
   )

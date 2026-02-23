@@ -44,4 +44,7 @@ public class TransactionService {
         return response;
     }
 
+    public List<Transaction> getListTransactionData() {
+        return transactionRepository.findAll();
+    }
 }
