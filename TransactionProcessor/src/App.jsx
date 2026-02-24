@@ -1,4 +1,4 @@
-import Example from "./component/example"
+
 import ListTransaction from "./component/ListTransaction"
 
 function App() {
@@ -8,7 +8,6 @@ function App() {
     <>
       <div>Anurath</div>
       <ListTransaction />
-      <Example />
     </>
   )
 }
