@@ -1,0 +1,25 @@
+.mainTable {
+    border: 3px groove black;
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+}
+
+.mainTable th,
+.mainTable td {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+}
+
+.tBody {
+    background-color: #ffe6f0;
+}
+
+.listTransactionContainer {
+    display: flex;
+    flex-direction: column;   /* Important */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
