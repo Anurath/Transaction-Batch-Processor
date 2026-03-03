@@ -45,6 +45,6 @@ public class TransactionService {
     }
 
     public List<Transaction> getListTransactionData() {
-        return transactionRepository.findAll(); 
+        return transactionRepository.findAll();
     }
 }
