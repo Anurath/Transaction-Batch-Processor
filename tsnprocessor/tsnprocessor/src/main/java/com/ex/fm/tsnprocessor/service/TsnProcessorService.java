@@ -39,6 +39,14 @@ public class TsnProcessorService {
                 }else{
                     transaction.setProcessStatus("R");
                 }
+
+                if(isDeductionAmountValid(transaction)){
+                    transaction.setProcessStatus("C");
+                }
+                else{
+                    transaction.setProcessStatus("R");
+                }
+
                 tsnProcessRepository.saveAllAndFlush(Collections.singletonList(transaction));
 
                 resetCount++;
@@ -57,6 +65,12 @@ public class TsnProcessorService {
             return true;
         }
         LOG.warn("---------TRANSACTION OUT OFF TIME----------------");
+        return false;
+    }
+
+    public boolean isDeductionAmountValid(Transaction transaction){
+        if(transaction.getBalance()>=transaction.getTransactionAmount())
+            return true;
         return false;
     }
 

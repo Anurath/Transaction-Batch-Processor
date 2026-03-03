@@ -5,7 +5,7 @@ export default function ListTransaction(){
     const [transactions,setTransaction] = useState([]);
      
     useEffect(()=>{
-        fetch("http://localhost:8080/transaction").then((response)=> response.json()).then((data)=>{
+        fetch("http://localhost:8084/transaction").then((response)=> response.json()).then((data)=>{
             console.log(data);
             setTransaction(data);
         })
@@ -36,7 +36,7 @@ export default function ListTransaction(){
               <td>{t.transactionId}</td>
               <td>{t.location}</td>
               <td>{t.status}</td>
-              <td>{t.processStatus}</td>
+              <td>{t.processStatus === "C" ? "Complete" : "Not Complete"}</td>
               <td>{t.balance}</td>
               <td>{t.transactionAmount}</td>
               <td>{t.receiverId}</td>
