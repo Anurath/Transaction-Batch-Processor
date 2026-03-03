@@ -44,7 +44,7 @@ public class TsnProcessorService {
                 resetCount++;
             }
 
-            LOG.info("----------------------STREAM UP------------------");
+            LOG.info("----------------------STREAM ACTIVE------------------");
 
             bath.clear();
         }
