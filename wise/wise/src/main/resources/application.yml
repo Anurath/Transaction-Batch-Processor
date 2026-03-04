@@ -1,0 +1,17 @@
+server:
+  port: 8085
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transaction_db
+    username: postgres
+    password: Anurath@123
+    driver-class-name: org.postgresql.Driver
+
+  application:
+    name: wise
+
+
+google:
+  genai:
+    api-key: -------------API KEY----------------------------
+    model: gemini-2.0-flash # Or your preferred model
