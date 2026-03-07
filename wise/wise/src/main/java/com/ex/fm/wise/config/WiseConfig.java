@@ -15,4 +15,6 @@ public class WiseConfig {
     public Client getGenAiClient(){
         return Client.builder().apiKey(apiKey).build();
     }
+
+
 }
