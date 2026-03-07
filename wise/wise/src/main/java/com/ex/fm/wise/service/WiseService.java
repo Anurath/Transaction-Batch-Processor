@@ -1,6 +1,8 @@
 package com.ex.fm.wise.service;
 
 import com.ex.fm.wise.dto.PromptRequest;
+import com.ex.fm.wise.dto.TTSRequest;
+import com.ex.fm.wise.dto.TTSResponse;
 import com.ex.fm.wise.repositoty.WiseRepository;
 import com.google.genai.Client;
 import com.ex.fm.wise.entity.Transaction;
@@ -10,19 +12,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import org.springframework.http.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class WiseService {
 
     public static final Logger LOG = LoggerFactory.getLogger(WiseService.class);
+
+//    @Autowired
+//    private WiseRepository wiseRepository;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
+//
+//    private final Client client;
 
     @Autowired
     private WiseRepository wiseRepository;
@@ -31,9 +40,11 @@ public class WiseService {
     private ObjectMapper objectMapper;
 
     private final Client client;
+    private final WebClient sarvamWebClient;
 
-    public WiseService(Client client){
+    public WiseService(Client client, WebClient sarvamWebClient) {
         this.client = client;
+        this.sarvamWebClient = sarvamWebClient;
     }
 
     public String generateResponse() {
@@ -119,6 +130,34 @@ public class WiseService {
         }catch (Throwable e){
             LOG.error("Something went wrong");
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] convertTextToSpeech(String text) {
+        try {
+            TTSRequest request = new TTSRequest(text, "bn-IN");
+
+            TTSResponse response = sarvamWebClient.post()
+                    .uri("/text-to-speech")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(request)
+                    .retrieve()
+                    .onStatus(
+                            status -> status.is4xxClientError() || status.is5xxServerError(),
+                            clientResponse -> clientResponse.bodyToMono(String.class)
+                                    .doOnNext(err -> LOG.error("Sarvam Error: {}", err))
+                                    .flatMap(err -> Mono.error(new RuntimeException("Sarvam API Error: " + err)))
+                    )
+                    .bodyToMono(TTSResponse.class)
+                    .block();
+
+            if (response != null && response.getAudios() != null && !response.getAudios().isEmpty()) {
+                return Base64.getDecoder().decode(response.getAudios().get(0));
+            }
+
+        } catch (Exception e) {
+            LOG.error("TTS conversion failed: {}", e.getMessage());
         }
         return null;
     }
