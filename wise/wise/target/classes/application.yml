@@ -13,5 +13,11 @@ spring:
 
 google:
   genai:
-    api-key: AIzaSyBXLjRter3TeLZ0fupFElYxjJc0ztFqKoE
+    api-key: -------------API KEY----------------------------
     model: gemini-2.0-flash # Or your preferred model
+
+
+nvidia:
+  ai:
+    api-key: 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
+    url: https://integrate.api.nvidia.com/v1/chat/completions
