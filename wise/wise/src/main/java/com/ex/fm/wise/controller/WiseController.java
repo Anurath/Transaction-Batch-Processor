@@ -5,13 +5,11 @@ import com.ex.fm.wise.dto.TextRequest;
 import com.ex.fm.wise.service.WiseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/wise")
+@CrossOrigin(origins = "http://localhost:5173")
 public class WiseController {
 
     @Autowired
@@ -34,7 +32,7 @@ public class WiseController {
     }
 
     @GetMapping("/sharvam")
-    public byte[] convertTestToSpeach(@RequestBody TextRequest textRequest){
-        return wiseService.convertTextToSpeech(textRequest.getText());
+    public byte[] convertTestToSpeach(){
+        return wiseService.convertTextToSpeech();
     }
 }

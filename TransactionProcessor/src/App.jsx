@@ -1,5 +1,6 @@
 import Example from "./component/example"
 import ListTransaction from "./component/ListTransaction"
+import SharvamAudioPlayer from "./component/SharvamAudioPlayer"
 
 function App() {
  
@@ -8,7 +9,7 @@ function App() {
     <>
       <div>Anurath</div>
       <ListTransaction />
-      <Example />
+      <SharvamAudioPlayer />
     </>
   )
 }
