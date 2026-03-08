@@ -19,5 +19,10 @@ google:
 
 nvidia:
   ai:
-    api-key: ----------------------NVIDIA API KEY---------------------------------
+    api-key: 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
     url: https://integrate.api.nvidia.com/v1/chat/completions
+
+sarvam:
+  ai:
+    api-key: sk_esg8g8hr_9Am7yWTFr77QsHSknM7biYbS
+    sharvamUrl: https://api.sarvam.ai

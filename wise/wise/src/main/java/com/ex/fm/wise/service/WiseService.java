@@ -10,6 +10,7 @@ import com.google.genai.types.GenerateContentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,6 +39,12 @@ public class WiseService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Value("${nvidia.ai.api-key}")
+    private String nvidiaApiKey;
+
+    @Value("${nvidia.ai.url}")
+    private String nvidiaUrl;
 
     private final Client client;
     private final WebClient sarvamWebClient;
@@ -80,7 +87,8 @@ public class WiseService {
                 "- Use plain text only\n" +
                 "- Do not use markdown, bold, bullets, hyphens, headers, or symbols\n" +
                 "- Do not use tables or special characters\n" +
-                "- Keep the summary under 100 words\n" +mainData;
+                "- Keep the summary under 100 characters\n" +
+                "- Cover total transactions, success count, failure count, total amount, and failure reason." +mainData;
 
         try{
 
@@ -134,9 +142,12 @@ public class WiseService {
         return null;
     }
 
-    public byte[] convertTextToSpeech(String text) {
+    public byte[] convertTextToSpeech() {
         try {
-            TTSRequest request = new TTSRequest(text, "bn-IN");
+
+            String insignt = generateNvidiaResponse(nvidiaUrl, nvidiaApiKey);
+
+            TTSRequest request = new TTSRequest(insignt, "bn-IN");
 
             TTSResponse response = sarvamWebClient.post()
                     .uri("/text-to-speech")
@@ -158,6 +169,7 @@ public class WiseService {
 
         } catch (Exception e) {
             LOG.error("TTS conversion failed: {}", e.getMessage());
+            throw new RuntimeException("TTS conversion failed: " + e.getMessage(), e);
         }
         return null;
     }
