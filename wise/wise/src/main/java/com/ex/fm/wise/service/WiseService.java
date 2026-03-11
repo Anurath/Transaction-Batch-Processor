@@ -63,6 +63,7 @@ public class WiseService {
         String prompt = "Analyze this transaction and provide proper insights about my data."+mainData;
 
         try{
+            LOG.info("API call started to Gemini AI");
             GenerateContentResponse generateContentResponse = client.models.generateContent(
                     "gemini-2.0-flash",
                     prompt,
@@ -70,6 +71,7 @@ public class WiseService {
             );
             return generateContentResponse.text();
         }catch (Exception e){
+            LOG.info("Failed to generate response.");
             System.out.println(e);
         }
         return null;
@@ -145,6 +147,8 @@ public class WiseService {
     public byte[] convertTextToSpeech() {
         try {
 
+            LOG.info("Request building started for Sharvam AI");
+
             String insignt = generateNvidiaResponse(nvidiaUrl, nvidiaApiKey);
 
             TTSRequest request = new TTSRequest(insignt, "bn-IN");
@@ -164,6 +168,7 @@ public class WiseService {
                     .block();
 
             if (response != null && response.getAudios() != null && !response.getAudios().isEmpty()) {
+                LOG.info("Extracting Audio data from Sharvam AI response.");
                 return Base64.getDecoder().decode(response.getAudios().get(0));
             }
 
